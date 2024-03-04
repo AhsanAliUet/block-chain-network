@@ -20,7 +20,7 @@ then
     rm -rf go1.22.0.linux-amd64.tar.gz
     echo "export PATH=/usr/local/go/bin:\$PATH" >> ~/.bashrc
     echo ""
-    source ~/.bashrc
+    eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
     echo ""
     echo "Succesfully installed Go in $(which go)"
     echo ""
@@ -46,7 +46,7 @@ then
     sudo mv quorum_bins /usr/local/
     echo "export PATH=/usr/local/quorum_bins:\$PATH" >> ~/.bashrc
     echo ""
-    source ~/.bashrc
+    eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
     echo ""
     echo "Succesfully installed Quorum in $(which geth)"
     echo ""
@@ -72,7 +72,7 @@ then
     sudo mv istanbul_tools_bins /usr/local/
     echo "export PATH=/usr/local/istanbul_tools_bins:\$PATH" >> ~/.bashrc
     echo ""
-    source ~/.bashrc
+    eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
     echo ""
     echo "Succesfully istanbul-tools in $(which istanbul)"
     echo ""
@@ -82,6 +82,7 @@ else
     echo ""
 fi
 
+eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
 source ~/.bashrc
 
 echo ""
