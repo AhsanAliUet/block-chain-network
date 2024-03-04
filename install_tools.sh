@@ -38,6 +38,7 @@ then
     echo ""
 
     git clone https://github.com/Consensys/quorum.git
+    eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
     cd quorum && make all
     cd ..
     mkdir quorum_bins
