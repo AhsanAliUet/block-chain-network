@@ -7,17 +7,20 @@ sudo apt-get install curl jq make git build-essential -y
 
 ## ==================== Install go ====================
 
+eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
+
 if [ ! $(which go) ]
 then
     echo ""
     echo "Installing Go..."
     echo ""
-    rm -rf go1.22.0.linux-amd64.tar.gz
-    wget https://dl.google.com/go/go1.22.0.linux-amd64.tar.gz
-    tar -xzf go1.22.0.linux-amd64.tar.gz
+    rm -rf go.tar.gz
+    sudo rm -rf /usr/local/go # remove existing version
+    wget https://dl.google.com/go/go1.22.1.linux-armv6l.tar.gz -O go.tar.gz  # change the version accordingly by refering to https://go.dev But do not remove armv6l from this link
+    tar -xzf go.tar.gz
     sudo rm -rf /usr/local/go
     sudo mv go/ /usr/local/
-    rm -rf go1.22.0.linux-amd64.tar.gz
+    rm -rf go.tar.gz
     echo "export PATH=/usr/local/go/bin:\$PATH" >> ~/.bashrc
     echo ""
     eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
@@ -37,7 +40,7 @@ then
     echo "Installing Quorum..."
     echo ""
 
-    git clone https://github.com/Consensys/quorum.git
+    # git clone https://github.com/Consensys/quorum.git
     eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
     cd quorum && make all
     cd ..
@@ -90,4 +93,5 @@ echo ""
 echo "You are all set. Installed all the tools!"
 echo ""
 
+source ~/.bashrc
 ## ==================== end ====================
