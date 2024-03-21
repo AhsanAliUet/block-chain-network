@@ -16,7 +16,8 @@ then
     echo ""
     rm -rf go.tar.gz
     sudo rm -rf /usr/local/go # remove existing version
-    wget https://dl.google.com/go/go1.22.1.linux-armv6l.tar.gz -O go.tar.gz  # change the version accordingly by refering to https://go.dev But do not remove armv6l from this link
+    # wget https://dl.google.com/go/go1.22.1.linux-armv6l.tar.gz -O go.tar.gz  # for Rpi3, change the version accordingly by refering to https://go.dev
+    wget https://dl.google.com/go/go1.22.1.linux-arm64.tar.gz -O go.tar.gz     # for Rpi4, change the version accordingly by refering to https://go.dev
     tar -xzf go.tar.gz
     sudo rm -rf /usr/local/go
     sudo mv go/ /usr/local/
@@ -40,7 +41,7 @@ then
     echo "Installing Quorum..."
     echo ""
 
-    # git clone https://github.com/Consensys/quorum.git
+    git clone https://github.com/Consensys/quorum.git
     eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
     cd quorum && make all
     cd ..
@@ -93,5 +94,6 @@ echo ""
 echo "You are all set. Installed all the tools!"
 echo ""
 
+eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
 source ~/.bashrc
 ## ==================== end ====================
