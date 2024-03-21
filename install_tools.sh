@@ -1,3 +1,5 @@
+#!/bin/bash  -i
+
 set -e # Exit immediately is some error occurs
 
 ## install dependencies
