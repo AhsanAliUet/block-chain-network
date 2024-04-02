@@ -1,24 +1,22 @@
-import numpy as np
+# Read content from the file
+with open('istanbul.log', 'r') as file:
+    content = file.read()
 
-def degree2rad(angle_in_degree):
-    return angle_in_degree * (np.pi/180)
+# Split content into sections based on section headers
+sections = [section.strip() for section in content.split('\n\n') if section.strip()]
 
-def pol2cart(rho, phi):
+# Define file names
+file_names = {
+    "validators": "validators.log",
+    "static-nodes.json": "static-nodes.json",
+    "genesis.json": "genesis.json"
+}
 
-    x = rho * np.cos(degree2rad(phi))
-    y = rho * np.sin(degree2rad(phi))
-    return(x, y)
+# Iterate through sections and write them into respective files
+for section in sections:
+    # Split section into name and content
+    name, data = section.split('\n', 1)
 
-interval_angle = 360/16
-total_angle    = 360
-initial_angle  = 0
-
-rho = 36
-phi = 0
-while (total_angle >= 0):
-    x, y = pol2cart(rho, phi)
-    print(f"x = {x}")
-    print(f"y = {y}")
-    print("\n==============\n")
-    phi = phi - interval_angle
-    total_angle = total_angle - interval_angle
+    # Write content to respective file
+    with open(file_names[name], 'w') as file:
+        file.write(data)
