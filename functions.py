@@ -59,7 +59,7 @@ def create_account(passwd, datadir, node_num):
     import pexpect
 
     # Define your command and password
-    command = f'nohup geth account new --datadir {datadir} account new'
+    command = f'geth account new --datadir {datadir} account new'
     password = passwd
 
     # Start the command
@@ -75,5 +75,36 @@ def create_account(passwd, datadir, node_num):
 
     # Wait for the process to complete and print its output
     child.expect(pexpect.EOF)
-    # print(child.before.decode())
 
+    # Write the command result to a file
+    out_file = open("geth.log", "w")
+    out_file.write(child.before.decode('unicode_escape')) 
+
+def extract_acc_public_keys(file_path):
+    texts_dict = {}
+    with open(file_path, 'r') as file:
+        node_num = 0
+        for line in file:
+            if line.startswith("Public address of the key:"):
+                text = line.split(":")[1].replace(" ", "").replace("\n", "")
+
+                # store node number as key and Public account address as value
+                texts_dict[node_num] = text
+                node_num += 1
+    return texts_dict
+
+def insert_in_json(file_name, existing_key, new_key, new_value):
+    """Appends a new key-value pair to an existing key (existing_key)
+       in json file with name file_name"""
+
+    import json
+
+    with open(file_name, 'r') as file:
+        data_dict = json.load(file)
+
+    # Make a new key value pair inside the existing key
+    data_dict[existing_key][new_key] = {'balance': new_value}
+
+    # Write modified dict to the json file
+    with open(file_name, 'w') as file:
+        json.dump(data_dict, file, indent=2)
