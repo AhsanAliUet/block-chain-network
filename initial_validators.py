@@ -26,8 +26,6 @@ update_port_numbers("dummy-static-nodes.json")
 for i in range(initial_validators):
     shellRun(f"mkdir -p node{i}/data/geth")
 
-exit()
-
 # create accounts
 acc_passwd = "12345"
 for i in range(initial_validators):
