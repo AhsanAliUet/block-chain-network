@@ -77,7 +77,7 @@ def create_account(passwd, datadir, node_num):
     child.expect(pexpect.EOF)
 
     # Write the command result to a file
-    out_file = open("geth.log", "w")
+    out_file = open("geth_accounts_info.log", "a")   # multiple accounts, so need to dump data in single file, therefore used append mode
     out_file.write(child.before.decode('unicode_escape')) 
 
 def extract_acc_public_keys(file_path):

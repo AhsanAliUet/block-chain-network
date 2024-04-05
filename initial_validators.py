@@ -4,7 +4,7 @@ from os import system as shellRun
 from functions import *
 
 # only one validator node initially
-initial_validators = 1
+initial_validators = 2
 
 assert(initial_validators > 0)
 
@@ -32,18 +32,17 @@ for i in range(initial_validators):
     create_account(acc_passwd, f"node{i}/data", i)
 
 # update genesis.json file with Public account adresses generated in the above steps
-public_addr_dict = extract_acc_public_keys("geth.log")
+public_addr_dict = extract_acc_public_keys("geth_accounts_info.log")
 balance = "0x446c3b15f9926687d2c40534fdb564000000000000"
-print(public_addr_dict)
 for i in range(initial_validators):
-    insert_in_json(f"node{i}/genesis.json", "alloc", public_addr_dict[i], balance)
+    insert_in_json(f"node0/genesis.json", "alloc", public_addr_dict[i], balance)  # node0 only?? Because node0 is lead node and genesis is there
 
 # distribute files among all initial validators
 for i in range(initial_validators):
     shellRun(f"cp -Rn node0/genesis.json node{i}")
     shellRun(f"cp -Rn dummy-static-nodes.json node{i}/data/static-nodes.json") # dummy because it is the updated one
     shellRun(f"cp -Rn node0/{i}/nodekey node{i}/data/geth")
-    shellRun(f"rm node{i}/static-nodes.json")
+    shellRun(f"rm -rf node{i}/static-nodes.json")
 
 # initialize the nodes
 for i in range(initial_validators):
