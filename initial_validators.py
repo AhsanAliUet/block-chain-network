@@ -52,6 +52,8 @@ for i in range(initial_validators):
     os.chdir("..")
 
 for i in range(initial_validators):
+    os.chdir(f"node{i}")
     shellRun(f"PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --miner.threads 1 --verbosity 5 --networkid 10 --rpc --rpcaddr 127.0.0.1 --rpcport 2200{i} --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --port 3030{i} 2>>node{i}.log &")
+    os.chdir("..")
 
 
