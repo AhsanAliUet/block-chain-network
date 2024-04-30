@@ -4,7 +4,7 @@ from os import system as shellRun
 from functions import *
 
 # only one validator node initially
-initial_validators = 2
+initial_validators = 14
 
 assert(initial_validators > 0)
 
@@ -50,9 +50,12 @@ for i in range(initial_validators):
     shellRun("geth --datadir data init genesis.json")
     os.chdir("..")
 
+rpc_port_num = 2200
+port_num = 30300
+
 for i in range(initial_validators):
     os.chdir(f"node{i}")
-    shellRun(f"PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --miner.threads 1 --verbosity 5 --networkid 10 --rpc --rpcaddr 127.0.0.1 --rpcport 2200{i} --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --port 3030{i} 2>>node{i}.log &")
+    shellRun(f"PRIVATE_CONFIG=ignore nohup geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --miner.threads 1 --verbosity 5 --networkid 10 --http --http.addr 127.0.0.1 --http.port {rpc_port_num} --http.api admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --allow-insecure-unlock --port {port_num} 2>>node{i}.log &")
     os.chdir("..")
-
-
+    rpc_port_num = rpc_port_num + 1
+    port_num = port_num + 1
