@@ -2,7 +2,7 @@
 """
 Necassary Instructions
 1. Enable Serial Port
-2. Remove "console=serial0,115200" as it will impose 115200 baud rate while PZEM requires 9600
+2. Remove "console=serial0,115200" from file /boot/firmware/cmdline.txt as it will impose 115200 baud rate while PZEM requires 9600
 3. Run this script, if error is serial port permission denied, run this script as sudo 
 """
 
