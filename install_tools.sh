@@ -43,6 +43,7 @@ then
     echo "Installing Quorum..."
     echo ""
 
+    rm -rf quorum    # remove it if already present some old folder
     git clone https://github.com/Consensys/quorum.git
     eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
     cd quorum && make all
@@ -70,6 +71,7 @@ then
     echo "Installing istanbul-tools..."
     echo ""
 
+    rm -rf istanbul-tools    # remove it if already present some old folder
     git clone https://github.com/ConsenSys/istanbul-tools.git
     cd istanbul-tools && make
     cd ..

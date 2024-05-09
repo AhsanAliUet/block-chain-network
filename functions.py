@@ -19,7 +19,7 @@ def get_data_from_istanbul(file_name):
 
 import json
 
-def update_port_numbers(file_path):
+def update_port_numbers(file_path, ip_dict):
     # Read content from the file
     with open(file_path, 'r') as file:
         data = json.load(file)
@@ -29,7 +29,7 @@ def update_port_numbers(file_path):
 
     # Iterate through each line
     port_ = 30300
-    for line in data:
+    for n, line in enumerate(data):
         # Extract the current IP address and port number from the line
         parts = line.split('@')
         if len(parts) < 2:
@@ -40,7 +40,7 @@ def update_port_numbers(file_path):
         ip, port = ip_and_port.split(':')
 
         # Construct the updated line
-        updated_line = f"{parts[0]}@127.0.0.1:{str(port_)}?{parts[1].split('?')[1]}"
+        updated_line = f"{parts[0]}@{ip_dict[n+1]}:{str(port_)}?{parts[1].split('?')[1]}"  # +1 in ip_dict becasue Raspberry Pis assigned numbers are unsigned starting from 1
         updated_data.append(updated_line)
         port_ = port_ + 1
 
@@ -79,6 +79,21 @@ def create_account(passwd, datadir, node_num):
     # Write the command result to a file
     out_file = open("geth_accounts_info.log", "a")   # multiple accounts, so need to dump data in single file, therefore used append mode
     out_file.write(child.before.decode('unicode_escape')) 
+
+def scp_distribution(command, prompt_expected, prompt_password):
+    """This method is used distribute files to Raspberry Pis using secure copy (scp) command"""
+
+    import pexpect
+
+    # Spawn a child process
+    child = pexpect.spawn(command)
+
+    # Wait for the password prompt and send the password
+    child.expect(prompt_expected)
+    child.sendline(prompt_password)
+
+    # Wait for the process to complete
+    child.expect(pexpect.EOF)
 
 def extract_acc_public_keys(file_path):
     texts_dict = {}
