@@ -19,7 +19,7 @@ def get_data_from_istanbul(file_name):
 
 import json
 
-def update_port_numbers(file_path, ip_dict):
+def update_port_numbers(file_path, ip_dict, is_raspberrypi=0):
     # Read content from the file
     with open(file_path, 'r') as file:
         data = json.load(file)
@@ -40,7 +40,11 @@ def update_port_numbers(file_path, ip_dict):
         ip, port = ip_and_port.split(':')
 
         # Construct the updated line
-        updated_line = f"{parts[0]}@{ip_dict[n+1]}:{str(port_)}?{parts[1].split('?')[1]}"  # +1 in ip_dict becasue Raspberry Pis assigned numbers are unsigned starting from 1
+        if (is_raspberrypi):
+            updated_line = f"{parts[0]}@{ip_dict[n+1]}:{str(port_)}?{parts[1].split('?')[1]}"  # +1 in ip_dict becasue Raspberry Pis assigned numbers are unsigned starting from 1
+        else:
+            updated_line = f"{parts[0]}@127.0.0.1:{str(port_)}?{parts[1].split('?')[1]}"  # +1 in ip_dict becasue Raspberry Pis assigned numbers are unsigned starting from 1
+
         updated_data.append(updated_line)
         port_ = port_ + 1
 
