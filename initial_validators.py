@@ -59,8 +59,8 @@ for i in range(initial_validators):
     shellRun("geth --datadir data init genesis.json")
     os.chdir("..")
 
-rpc_port_num = 22000
-port_num = 30300
+rpc_port_num = 22000  # used for RPC (remote procedure calls), port forwarding using HTTP etc, viewing in browsers
+port_num = 30300      # actual port on which the process is running
 pi_password = 'Lums12345'
 
 for i in range(initial_validators):
