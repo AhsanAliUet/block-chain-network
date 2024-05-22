@@ -97,10 +97,33 @@ else
     echo ""
 fi
 
-# install some pip things
+## ==================== Install node and npm ====================
+
+if [ ! $(which node) ]
+then
+    if [ $(whoami) = 'pi*' ];
+    then
+        node_name_and_version="node-v22.2.0-linux-armv7l"
+    else
+        node_name_and_version="node-v22.2.0-linux-x64"
+    fi
+
+    wget https://nodejs.org/dist/v22.2.0/${node_name_and_version}.tar.xz -O node.tar.xz
+    tar xf node.tar.xz
+    sudo mv ${node_name_and_version} /usr/local/
+    rm node.tar.xz
+    echo "export PATH=/usr/local/${node_name_and_version}/bin:\$PATH" >> ~/.bashrc
+else
+    echo ""
+    echo "node is already present in $(which node)"
+    echo ""
+fi
+
+## ==================== Install some pip things ====================
 sudo apt install python3-pip -y
 pip3 install pexpect
 
+## ==================== Final things ====================
 eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
 source ~/.bashrc
 
@@ -110,4 +133,5 @@ echo ""
 
 eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
 source ~/.bashrc
+
 ## ==================== end ====================
