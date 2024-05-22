@@ -17,9 +17,15 @@ then
     echo "Installing Go..."
     echo ""
     rm -rf go.tar.gz
-    sudo rm -rf /usr/local/go # remove existing version
-    # wget https://dl.google.com/go/go1.22.1.linux-armv6l.tar.gz -O go.tar.gz  # for Rpi3, change the version accordingly by refering to https://go.dev
-    wget https://dl.google.com/go/go1.22.1.linux-arm64.tar.gz -O go.tar.gz     # for Rpi4, change the version accordingly by refering to https://go.dev
+    sudo rm -rf $(which go) # remove existing version
+
+    if [ $(whoami) = 'pi*' ];
+    then
+        wget https://dl.google.com/go/go1.22.1.linux-arm64.tar.gz -O go.tar.gz     # for Rpi4, change the version accordingly by refering to https://go.dev
+    else
+        wget https://dl.google.com/go/go1.22.1.linux-amd64.tar.gz -O go.tar.gz     # for Ubuntu, change the version accordingly by refering to https://go.dev
+    fi
+
     tar -xzf go.tar.gz
     sudo rm -rf /usr/local/go
     sudo mv go/ /usr/local/
@@ -90,6 +96,10 @@ else
     echo "istanbul is already present in $(which istanbul)"
     echo ""
 fi
+
+# install some pip things
+sudo apt install python3-pip -y
+pip3 install pexpect
 
 eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
 source ~/.bashrc
