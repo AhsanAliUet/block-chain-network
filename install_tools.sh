@@ -103,7 +103,7 @@ if [ ! $(which node) ]
 then
     if [ $(whoami) = 'pi' ];
     then
-        node_name_and_version="node-v22.2.0-linux-armv7l"
+        node_name_and_version="node-v22.2.0-linux-arm64"
     else
         node_name_and_version="node-v22.2.0-linux-x64"
     fi
