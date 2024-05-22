@@ -19,7 +19,7 @@ then
     rm -rf go.tar.gz
     sudo rm -rf $(which go) # remove existing version
 
-    if [ $(whoami) = 'pi*' ];
+    if [ $(whoami) = 'pi' ];
     then
         wget https://dl.google.com/go/go1.22.1.linux-arm64.tar.gz -O go.tar.gz     # for Rpi4, change the version accordingly by refering to https://go.dev
     else
@@ -101,7 +101,7 @@ fi
 
 if [ ! $(which node) ]
 then
-    if [ $(whoami) = 'pi*' ];
+    if [ $(whoami) = 'pi' ];
     then
         node_name_and_version="node-v22.2.0-linux-armv7l"
     else
@@ -121,7 +121,7 @@ fi
 
 ## ==================== Install some pip things ====================
 sudo apt install python3-pip -y
-pip3 install pexpect
+pip3 install pexpect --break-system-packages
 
 ## ==================== Final things ====================
 eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
