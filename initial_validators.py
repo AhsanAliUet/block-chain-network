@@ -69,7 +69,7 @@ for i in range(initial_validators):
     if (is_raspberrypi):
         final_command = f"PRIVATE_CONFIG=ignore geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --miner.threads 1 --verbosity 5 --networkid 10 --http --http.addr {ip_dict[i+1]} --http.port {rpc_port_num} --http.api admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --allow-insecure-unlock --port {port_num} 2>>node{i}.log &"
     else:
-        final_command = f"PRIVATE_CONFIG=ignore geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --miner.threads 1 --verbosity 5 --networkid 10 --http --http.addr 127.0.0.1 --http.port {rpc_port_num} --http.api admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --emitcheckpoints --allow-insecure-unlock --port {port_num} 2>>node{i}.log &"
+        final_command = f"PRIVATE_CONFIG=ignore geth --datadir data --nodiscover --istanbul.blockperiod 5 --syncmode full --mine --miner.threads 1 --verbosity 5 --networkid 10 --http --http.addr 127.0.0.1 --http.port {rpc_port_num} --http.api admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,istanbul --http.corsdomain https://remix.ethereum.org --emitcheckpoints --allow-insecure-unlock --port {port_num} 2>>node{i}.log &"
 
     start_node_file.write(final_command)
     start_node_file.close()
