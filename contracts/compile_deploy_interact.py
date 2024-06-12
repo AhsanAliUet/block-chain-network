@@ -41,12 +41,12 @@ abi = json.loads(
 )["output"]["abi"]
 
 # set up connection
-w3 = Web3(Web3.HTTPProvider("HTTP://127.0.0.1:22000"))
+w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:22000"))
 chain_id = 10
-sender_account = "0x25951F008511A8cB256119462Bb7d038C376c616"
+sender_account = "0x30af42e072068e7bff8ddce6d5ee59d4fd2c6694"
 my_address = Web3.to_checksum_address(sender_account)
 # private_key = os.getenv("PRIVATE_KEY")
-private_key = "0x8e3ee2572c19d5015bebac0492138a5a13b85bb96e446dc10a902359665113c0"
+private_key = "0xd9cdee3121681abd782c342938683f51bdf76909d77b67cb8be846230f05be62"
 # initialize contract
 SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
 
