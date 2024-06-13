@@ -9,6 +9,7 @@ contract SimpleStorage {
         storedData = x;
     }
 
+    // get function is a view function because it should not modify state of the contract
     function get() public view returns (uint256) {
         return storedData;
     }
