@@ -17,7 +17,7 @@ install_solc("0.8.0")
 compiled_sol = compile_standard(
     {
         "language": "Solidity",
-        "sources": {"SimpleStorage.sol": {"content": simple_storage_file}},
+        "sources": {f"{smart_contract_file}.sol": {"content": simple_storage_file}},
         "settings": {
             "outputSelection": {
                 "*": {
@@ -33,13 +33,13 @@ with open(smart_contract_file_path + smart_contract_file + ".json", "w") as file
     json.dump(compiled_sol, file)
 
 # retrieve bytecode
-bytecode = compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["evm"][
+bytecode = compiled_sol["contracts"][f"{smart_contract_file}.sol"][f"{smart_contract_file}"]["evm"][
     "bytecode"
 ]["object"]
 
 # get abi
 abi = json.loads(
-    compiled_sol["contracts"]["SimpleStorage.sol"]["SimpleStorage"]["metadata"]
+    compiled_sol["contracts"][f"{smart_contract_file}.sol"][f"{smart_contract_file}"]["metadata"]
 )["output"]["abi"]
 
 # ===================== Establishing the connection with the network =====================
