@@ -3,6 +3,7 @@ from web3 import Web3
 import os
 from solcx import compile_standard, install_solc
 from dotenv import load_dotenv
+from decrypt import decrypt_aes128
 import json
 
 smart_contract_file_path = "./"
@@ -44,10 +45,15 @@ abi = json.loads(
 # ===================== Establishing the connection with the network =====================
 w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:22000"))
 chain_id = 10
-sender_account = "0xa6d3ac044d58c6f4a838c1127034d03fe0720194"
+
+# absolute path to UTC file of the node
+utc_file = "/home/ahsan/block-chain-network/node0/data/keystore/UTC--2024-06-13T07-07-10.406100756Z--d0929162cd2f4829262a9873d70e24a1a481d81f"
+sender_account = '0x' + utc_file.split("--")[2]
 my_address = Web3.to_checksum_address(sender_account)
-# private_key = os.getenv("PRIVATE_KEY")
-private_key = "0x1f773492dc6c001a5f73cb4adccc5393f84e88f65cdf3055fda23a7d55d4a06f"
+
+encryption_file = utc_file
+acc_passwd = "12345"
+private_key = decrypt_aes128(encryption_file, acc_passwd)
 
 # ===================== Instantiate the contract ===================== 
 SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
