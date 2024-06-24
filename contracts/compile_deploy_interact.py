@@ -47,7 +47,7 @@ w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:22000"))
 chain_id = 10
 
 # absolute path to UTC file of the node
-utc_file = "/home/ahsan/block-chain-network/node0/data/keystore/UTC--2024-06-13T07-07-10.406100756Z--d0929162cd2f4829262a9873d70e24a1a481d81f"
+utc_file = "/home/ahsan/block-chain-network/node0/data/keystore/UTC--2024-06-24T04-09-08.601627076Z--ae9e43b69eeb9f4e920529f4c8e7e57bf62d40c7"
 sender_account = '0x' + utc_file.split("--")[2]
 my_address = Web3.to_checksum_address(sender_account)
 
@@ -79,12 +79,15 @@ print(f"Contract deployed to address {tx_receipt.contractAddress}")
 simple_storage = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
 print(f"\nInitial value stored is: {simple_storage.functions.get().call()}")
 
+# nonce is increamented by 1 for every attemp made (https://www.investopedia.com/terms/n/nonce.asp#:~:text=A%20nonce%20is%20a%20numerical%20value%20used%20in,values%20in%20the%20block%20consumes%20significant%20computational%20power.)
+nonce = nonce + 1
+
 new_transaction = simple_storage.functions.set(12344321).build_transaction(
     {
         "chainId": chain_id,
         "gasPrice": w3.eth.gas_price,
         "from": my_address,
-        "nonce": nonce + 1,
+        "nonce": nonce,
     }
 )
 
