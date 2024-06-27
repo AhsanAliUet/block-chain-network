@@ -47,7 +47,7 @@ w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:22000"))
 chain_id = 10
 
 # absolute path to UTC file of the node
-utc_file = "/home/ahsan/block-chain-network/node0/data/keystore/UTC--2024-06-24T04-09-08.601627076Z--ae9e43b69eeb9f4e920529f4c8e7e57bf62d40c7"
+utc_file = "/home/ahsan/block-chain-network/node1/data/keystore/UTC--2024-06-27T07-16-41.138317210Z--009a186e72a257867998b974b3bc5d6dfd61cfc5"
 sender_account = '0x' + utc_file.split("--")[2]
 my_address = Web3.to_checksum_address(sender_account)
 
