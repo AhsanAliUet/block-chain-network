@@ -1,11 +1,4 @@
-/*  @file       producer.js
-*   @authors    Saurabh Gupta     [saurabh.gupta1002@gmail.com]
-*               Awadhut Thube     [awadhutthube@gmail.com]
-*               Jheel Nagaria     [nagariajheel@gmail.com]
-*               Ashish Kamble     [ashishkamble14@gmail.com]
-*/
 
-// Instances //
 
 /* web3.js is a collection of libraries that allow you to interact with a 
 *  local or remote ethereum node using HTTP, IPC or WebSocket.
@@ -54,104 +47,14 @@ var energy_KWH = 0; var prev_energy_KWH = 0; var difference = 0;
 var producer; var consumer;
 
 // Smart Contract for generation of Virtual Energy Tokens and Automate transactions
-var abi = [
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_account",
-        "type": "address"
-      }
-    ],
-     "name": "token_balance",
-     "outputs": [
-       {
-         "name": "",
-         "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "",
-          "type": "address"
-        }
-      ],
-      "name": "balances",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": true,
-      "inputs": [
-        {
-          "name": "_account",
-          "type": "address"
-        }
-      ],
-      "name": "eth_balance",
-      "outputs": [
-        {
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "payable": false,
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "constant": false,
-      "inputs": [
-        {
-          "name": "_account",
-          "type": "address"
-        },
-        {"name": "amount",
-        "type": "uint256"
-      }
-    ],
-    "name": "send_eth",
-    "outputs": [],
-    "payable": true,
-    "stateMutability": "payable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "name": "_account",
-        "type": "address"
-      },
-      {"name": "amount",
-      "type": "uint256"
-    }
-  ],
-  "name": "update_tokens",
-  "outputs": [],
-  "payable": false,
-  "stateMutability": "nonpayable",
-  "type": "function"
-}
-]
+var abi = [{"inputs": [{"internalType": "address", "name": "", "type": "address"}], "name": "balances", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}], "name": "eth_balance", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address payable", "name": "_account", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}], "name": "send_eth", "outputs": [], "stateMutability": "payable", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}], "name": "token_balance", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}], "name": "update_tokens", "outputs": [], "stateMutability": "nonpayable", "type": "function"}]
+
 // Contract Address obtained after deploying contract from 'Remix Solidity Compiler'
 // This is the token generation and ether sending contract
-var contract_address = "0xb87626c814E6c3345d9E4F0543De60cE850C763C" ;   
+var contract_address = "0x83AE811Db5F0D6C0B8Cad3e1392904e94480f5F4" ;   
+
 // Contract Object Creation at Contract Address
-var obj = web3.eth.contract(abi).at("0xb87626c814E6c3345d9E4F0543De60cE850C763C");
+var obj = web3.eth.contract(abi).at(contract_address);
 
 // Web3 setup
 web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));

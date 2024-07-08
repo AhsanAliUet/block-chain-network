@@ -1,12 +1,3 @@
-/*  @file       comsumer.js
-*   @authors    Saurabh Gupta     [saurabh.gupta1002@gmail.com]
-*               Awadhut Thube     [awadhutthube@gmail.com]
-*               Jheel Nagaria     [nagariajheel@gmail.com]
-*               Ashish Kamble     [ashishkamble14@gmail.com]
-*/
-
-// Instances //
-
 /* web3.js is a collection of libraries that allow you to interact with a 
 *  local or remote ethereum node using HTTP, IPC or WebSocket.
 */
@@ -22,7 +13,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var other_servers = require('socket.io-client'); // This is a client connecting to the SERVER 2 (MAIN SERVER)
 // Replace IP adress with that of the machine running the main server
-var main_server = other_servers.connect('http://192.168.0.154:4000', {reconnect: true});
+var main_server = other_servers.connect('http://172.20.230.79:4000', {reconnect: true});
 
 // Setup Serial Connection with Arduino Nano to control relay
 // var SerialPort = require("serialport");
