@@ -1,7 +1,7 @@
 from eth_utils import address
 from web3 import Web3
 import os
-from solcx import compile_standard, install_solc
+from solcx import compile_standard, compile_solc
 from dotenv import load_dotenv
 from decrypt import decrypt_aes128
 import json
@@ -12,7 +12,7 @@ smart_contract_file = "SimpleStorage"
 with open(smart_contract_file_path + smart_contract_file + ".sol", "r") as file:
     simple_storage_file = file.read()
 
-install_solc("0.8.0")
+compile_solc("0.8.0")
 
 compiled_sol = compile_standard(
     {
@@ -47,7 +47,7 @@ w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:22000"))
 chain_id = 10
 
 # absolute path to UTC file of the node
-utc_file = "/home/ahsan/block-chain-network/node1/data/keystore/UTC--2024-06-27T07-16-41.138317210Z--009a186e72a257867998b974b3bc5d6dfd61cfc5"
+utc_file = "/home/ahsan/block-chain-network/node0/data/keystore/UTC--2024-07-08T09-08-57.502689989Z--ed63a0e1fba424cf65d8331d50b4c7474ad95392"
 sender_account = '0x' + utc_file.split("--")[2]
 my_address = Web3.to_checksum_address(sender_account)
 

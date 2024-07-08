@@ -13,7 +13,7 @@ else:
 initial_validators = 5
 
 # Local static ip addresses of raspberry pis
-ip_dict = {1: '192.168.0.154', 2: '192.168.0.111', 3: '192.168.0.167', 4: '192.168.0.137', 5: '192.168.0.192', 6: '192.168.0.119', 7: '192.168.0.171', 8: '192.168.0.133', 9: '192.168.0.110', 10: '192.168.0.152'}
+ip_dict = {1: '192.168.0.154', 2: '192.168.0.111', 3: '192.168.0.167', 4: '192.168.0.137', 5: '192.168.0.192', 6: '192.168.0.120', 7: '192.168.0.171', 8: '192.168.0.133', 9: '192.168.0.110', 10: '192.168.0.152'}
 
 assert(initial_validators > 0)
 
@@ -87,6 +87,7 @@ for i in range(initial_validators):
             shellRun("./del_junk.sh")
             raise ConnectionError("Raspberry Pi nodes are off/not-accesible!")
     else:
+        shellRun(f"cd node{i} && ./startnode{i}.sh")
         pass  # nothing needs to be copied, everything is settled up
 
     rpc_port_num = rpc_port_num + 1
