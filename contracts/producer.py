@@ -25,12 +25,12 @@ def connect():
 def disconnect():
     print("Disconnected from the main server")
 
-# Setup Serial Connection with Arduino Nano to control relay
-arduino_serial_port = serial.Serial('/dev/cu.usbmodem1421', baudrate=9600, timeout=1)
-arduino_serial_port.flush()
+# # Setup Serial Connection with Arduino Nano to control relay
+# arduino_serial_port = serial.Serial('/dev/ttyUSB1', baudrate=9600, timeout=1)
+# arduino_serial_port.flush()
 
-# Serial Port Setup for Energy Meter Reading
-meter_serial_port = serial.Serial('/dev/cu.usbserial', baudrate=115200, timeout=1)
+# # Serial Port Setup for Energy Meter Reading
+# meter_serial_port = serial.Serial('/dev/cu.usbserial', baudrate=115200, timeout=1)
 
 meter_reading_string = ""
 value_meter = None
@@ -50,7 +50,7 @@ consumer = None
 
 # Smart Contract for generation of Virtual Energy Tokens and Automate transactions
 abi = [{"inputs": [{"internalType": "address", "name": "", "type": "address"}], "name": "balances", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}], "name": "eth_balance", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address payable", "name": "_account", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}], "name": "send_eth", "outputs": [], "stateMutability": "payable", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}], "name": "token_balance", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}], "name": "update_tokens", "outputs": [], "stateMutability": "nonpayable", "type": "function"}]
-contract_address = "0x83AE811Db5F0D6C0B8Cad3e1392904e94480f5F4"
+contract_address = "0x861f0785EB4D65a428ADB978862C1c8d801e699d"
 
 # Contract Object Creation at Contract Address
 contract = web3.eth.contract(address=contract_address, abi=abi)
@@ -59,12 +59,14 @@ web3.eth.default_account = web3.eth.accounts[0]
 def read_meter():
     global meter_reading_string, energy_KWH, prev_energy_KWH, value_meter
     while True:
-        meter_serial_port.write(b'SHOW=\r\n')
+        # meter_serial_port.write(b'SHOW=\r\n')
         time.sleep(1)
-        meter_reading_string = meter_serial_port.read_all().decode('utf-8')
-        KWH_index = meter_reading_string.find("KWH")
+        # meter_reading_string = meter_serial_port.read_all().decode('utf-8')
+        # KWH_index = meter_reading_string.find("KWH")
+        KWH_index = 1
         if KWH_index != -1:
             value_meter = meter_reading_string[KWH_index + 8: KWH_index + 9]
+            value_meter = 1
             energy_KWH = 1 + int(value_meter)
         meter_reading_string = ""
         time.sleep(5)
@@ -116,7 +118,7 @@ def update_energy_tokens():
     global energy_tokens, energy_KWH, prev_energy_KWH, difference, pending_tx_list
     while True:
         difference = energy_KWH - prev_energy_KWH
-        balance = web3.eth.get_balance(web3.eth.accounts[4])
+        balance = web3.eth.get_balance(web3.eth.accounts[0])
         socketio_server.emit('pending_tx_list', {'tx_1': pending_tx_list[0], 'tx_2': pending_tx_list[1], 'tx_3': pending_tx_list[2]})
         socketio_server.emit('energy_token_balance', {'energy': energy_KWH, 'tok': energy_tokens, 'bal': balance})
         if difference != 0:

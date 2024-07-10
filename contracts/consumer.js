@@ -39,103 +39,11 @@ var pending_tx_list = []
 var producer; var consumer;
 
 // Smart Contract for generation of Virtual Energy Tokens and Automate transactions
-var abi = [
-            {
-              "constant": false,
-              "inputs": [
-                {
-                  "name": "_account",
-                  "type": "address"
-                }
-              ],
-               "name": "token_balance",
-               "outputs": [
-                 {
-                   "name": "",
-                   "type": "uint256"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "nonpayable",
-                "type": "function"
-              },
-              {
-                "constant": true,
-                "inputs": [
-                  {
-                    "name": "",
-                    "type": "address"
-                  }
-                ],
-                "name": "balances",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "uint256"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-              },
-              {
-                "constant": true,
-                "inputs": [
-                  {
-                    "name": "_account",
-                    "type": "address"
-                  }
-                ],
-                "name": "eth_balance",
-                "outputs": [
-                  {
-                    "name": "",
-                    "type": "uint256"
-                  }
-                ],
-                "payable": false,
-                "stateMutability": "view",
-                "type": "function"
-              },
-              {
-                "constant": false,
-                "inputs": [
-                  {
-                    "name": "_account",
-                    "type": "address"
-                  },
-                  {"name": "amount",
-                  "type": "uint256"
-                }
-              ],
-              "name": "send_eth",
-              "outputs": [],
-              "payable": true,
-              "stateMutability": "payable",
-              "type": "function"
-            },
-            {
-              "constant": false,
-              "inputs": [
-                {
-                  "name": "_account",
-                  "type": "address"
-                },
-                {"name": "amount",
-                "type": "uint256"
-              }
-            ],
-            "name": "update_tokens",
-            "outputs": [],
-            "payable": false,
-            "stateMutability": "nonpayable",
-            "type": "function"
-          }
-        ]
+var abi = [{"inputs": [{"internalType": "address", "name": "", "type": "address"}], "name": "balances", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}], "name": "eth_balance", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address payable", "name": "_account", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}], "name": "send_eth", "outputs": [], "stateMutability": "payable", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}], "name": "token_balance", "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}], "stateMutability": "view", "type": "function"}, {"inputs": [{"internalType": "address", "name": "_account", "type": "address"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}], "name": "update_tokens", "outputs": [], "stateMutability": "nonpayable", "type": "function"}]
 // Contract Address obtained after deploying contract from 'Remix Solidity Compiler'
 var contract_address = "0xbccc53572694ea920a4bf3070b4780a7892855a2";
 // Contract Object Creation at Contract Address
-var obj = web3.eth.contract(abi).at("0xbccc53572694ea920a4bf3070b4780a7892855a2");
+var obj = web3.eth.contract(abi).at(contract_address);
 
 // Web3 setup
 web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
