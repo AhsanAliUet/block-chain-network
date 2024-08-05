@@ -9,8 +9,8 @@ if (len(sys.argv) > 1): # to exclude the file name
 else:
     is_raspberrypi = 1  # run on Raspberry Pi nodes by default
 
-# only one validator node initially
-initial_validators = 5
+# number of validator nodes initially
+initial_validators = 2
 
 # Local static ip addresses of raspberry pis
 ip_dict = {1: '192.168.0.154', 2: '192.168.0.111', 3: '192.168.0.167', 4: '192.168.0.137', 5: '192.168.0.192', 6: '192.168.0.120', 7: '192.168.0.171', 8: '192.168.0.133', 9: '192.168.0.110', 10: '192.168.0.152'}

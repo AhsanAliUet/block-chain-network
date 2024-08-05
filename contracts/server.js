@@ -162,7 +162,7 @@ app.get('/', (req, res) => {
       {
         add0:producer_address_list[0], add1:producer_address_list[1], add2:producer_address_list[2], add3:producer_address_list[3], add4:producer_address_list[4], add5:producer_address_list[5],
         bid0:asking_bid[0], bid1:asking_bid[1], bid2:asking_bid[2], bid3:asking_bid[3], bid4:asking_bid[4], bid5:asking_bid[5],
-        add6:consumer_address_list[0], add7:consumer_address_list[1], add8:consumer_address_list[2], add9:consumer_address_list[3], add10:consumer_address_list[4], add11:consumer_address_list[5],
+        con0:consumer_address_list[0], con1:consumer_address_list[1], con2:consumer_address_list[2], con3:consumer_address_list[3], con4:consumer_address_list[4], con5:consumer_address_list[5],
         tok0:energy_token[0], tok1:energy_token[1], tok2:energy_token[2], tok3:energy_token[3], tok4:energy_token[4], tok5:energy_token[5]
       });
     }, 1000);
