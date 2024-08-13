@@ -1,13 +1,7 @@
-<!--  @file       energy_marketplace.html
-*     @authors    Saurabh Gupta     [saurabh.gupta1002@gmail.com]
-*                 Awadhut Thube     [awadhutthube@gmail.com]
-*                 Jheel Nagaria     [nagariajheel@gmail.com]
-*                 Ashish Kamble     [ashishkamble14@gmail.com]
-*-->
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CoE Blockchain</title>
+    <title>P2P Energy Trading through Ethereum Blockchain</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -16,7 +10,8 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link href="./css/font-awesome.min.css" rel="stylesheet">
     <link href="./css/style.css" rel="stylesheet">
-    <script src="./js/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <!-- <script src="./js/jquery-1.11.3.min.js"></script> -->
     <script src="./js/bootstrap.js"></script>
     <script src="./js/script.js"></script>
     <script src="/socket.io/socket.io.js"></script>
@@ -28,7 +23,7 @@
       <div class="container">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#defaultNavbar1"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button>
-          <a class="navbar-brand" href="#"><img src="./images/logo.png" alt="Green Blocks" width="122" height="60"></a>
+          <a class="navbar-brand" href="#"><img src="./images/LUMS_logo.png" alt="P2P Energy Trading" width="160" height="60"></a>
         </div>
 
         <div class="collapse navbar-collapse" id="defaultNavbar1">
@@ -49,8 +44,8 @@
             <h2>Current bids</h2>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-4 col-xs-12">
+        <div class="row text-center">
+          <div class="col-md-4 col-xs-12 d-inline-block">
             <div class="card">
               <h3 id="latest_bid0"></h3>
               <div class="stats">
@@ -61,7 +56,7 @@
               <button class="btn btn-primary btn-block" onclick="bid_for_producer_0();">Bid</button>
             </div>
           </div>
-          <div class="col-md-4 col-xs-12">
+          <div class="col-md-4 col-xs-12 d-inline-block">
             <div class="card">
               <h3 id="latest_bid1"></h3>
               <div class="stats">
@@ -120,8 +115,6 @@
       </div>
     </section>
 
-
-
     <!-- Modal -->
     <div id="buy" class="modal fade" role="dialog">
       <div class="modal-dialog">
@@ -168,16 +161,17 @@
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="./public/js/jquery-1.11.3.min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+    <!-- <script src="./js/jquery-1.11.3.min.js"></script> -->
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="./public/js/bootstrap.js"></script>
-    <script src="./public/js/script.js"></script>
+    <script src="./js/bootstrap.js"></script>
+    <script src="./js/script.js"></script>
 
     <script>
       var address;
       var value;
-      var bid_value = [];
+      var bid_value;
       var address_seller;
       var address_request;
       var socket = io();
@@ -252,27 +246,28 @@
         document.getElementById("producer3").innerHTML = data.add3;
         document.getElementById("producer4").innerHTML = data.add4;
         document.getElementById("producer5").innerHTML = data.add5;
-        document.getElementById("latest_bid0").innerHTML = data.bid0;
-        document.getElementById("latest_bid1").innerHTML = data.bid1;
-        document.getElementById("latest_bid2").innerHTML = data.bid2;
-        document.getElementById("latest_bid3").innerHTML = data.bid3;
-        document.getElementById("latest_bid4").innerHTML = data.bid4;
-        document.getElementById("latest_bid5").innerHTML = data.bid5;
-        document.getElementById("consumer0").innerHTML = data.add6;
-        document.getElementById("consumer1").innerHTML = data.add7;
-        document.getElementById("consumer2").innerHTML = data.add8;
-        document.getElementById("consumer3").innerHTML = data.add9;
-        document.getElementById("consumer4").innerHTML = data.add10;
-        document.getElementById("consumer5").innerHTML = data.add11;
+
         document.getElementById("Etoken0").innerHTML = data.tok0;
         document.getElementById("Etoken1").innerHTML = data.tok1;
         document.getElementById("Etoken2").innerHTML = data.tok2;
         document.getElementById("Etoken3").innerHTML = data.tok3;
         document.getElementById("Etoken4").innerHTML = data.tok4;
         document.getElementById("Etoken5").innerHTML = data.tok5;
+
+        document.getElementById("latest_bid0").innerHTML = data.bid0;
+        document.getElementById("latest_bid1").innerHTML = data.bid1;
+        document.getElementById("latest_bid2").innerHTML = data.bid2;
+        document.getElementById("latest_bid3").innerHTML = data.bid3;
+        document.getElementById("latest_bid4").innerHTML = data.bid4;
+        document.getElementById("latest_bid5").innerHTML = data.bid5;
+
+        document.getElementById("consumer0").innerHTML = data.con0;
+        document.getElementById("consumer1").innerHTML = data.con1;
+        document.getElementById("consumer2").innerHTML = data.con2;
+        document.getElementById("consumer3").innerHTML = data.con3;
+        document.getElementById("consumer4").innerHTML = data.con4;
+        document.getElementById("consumer5").innerHTML = data.con5;
       });
-
     </script>
-
   </body>
 </html>

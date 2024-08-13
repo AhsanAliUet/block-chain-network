@@ -5,6 +5,7 @@ from solcx import compile_standard, compile_solc
 from dotenv import load_dotenv
 from decrypt import decrypt_aes128
 import json
+import subprocess
 
 smart_contract_file_path = "./"
 smart_contract_file = "test"
@@ -12,36 +13,36 @@ smart_contract_file = "test"
 with open(smart_contract_file_path + smart_contract_file + ".sol", "r") as file:
     simple_storage_file = file.read()
 
-compile_solc("0.8.0")
+#compile_solc("0.8.0")
 
-compiled_sol = compile_standard(
-    {
-        "language": "Solidity",
-        "sources": {f"{smart_contract_file}.sol": {"content": simple_storage_file}},
-        "settings": {
-            "outputSelection": {
-                "*": {
-                    "*": ["abi", "metadata", "evm.bytecode", "evm.bytecode.sourceMap"]
-                }
-            }
-        },
-    },
-    solc_version="0.8.0",
-)
+#compiled_sol = compile_standard(
+#    {
+#        "language": "Solidity",
+#        "sources": {f"{smart_contract_file}.sol": {"content": simple_storage_file}},
+#        "settings": {
+#            "outputSelection": {
+#                "*": {
+#                    "*": ["abi", "metadata", "evm.bytecode", "evm.bytecode.sourceMap"]
+#                }
+#            }
+#        },
+#    },
+#    solc_version="0.8.0",
+#)
 
-with open(smart_contract_file_path + smart_contract_file + ".json", "w") as file:
-    json.dump(compiled_sol, file)
+#with open(smart_contract_file_path + smart_contract_file + ".json", "w") as file:
+#    json.dump(compiled_sol, file)
 
 # retrieve bytecode
-bytecode = compiled_sol["contracts"][f"{smart_contract_file}.sol"][f"{smart_contract_file}"]["evm"][
-    "bytecode"
-]["object"]
-bytecode = "6080604052348015600e575f80fd5b5061063f8061001c5f395ff3fe608060405260043610610049575f3560e01c8063105ae03a1461004d57806327e235e3146100895780634e61e2ed146100c55780639ba7548e14610101578063cef29f371461011d575b5f80fd5b348015610058575f80fd5b50610073600480360381019061006e91906103c1565b610145565b6040516100809190610404565b60405180910390f35b348015610094575f80fd5b506100af60048036038101906100aa91906103c1565b61018a565b6040516100bc9190610404565b60405180910390f35b3480156100d0575f80fd5b506100eb60048036038101906100e691906103c1565b61019e565b6040516100f89190610404565b60405180910390f35b61011b60048036038101906101169190610482565b6101be565b005b348015610128575f80fd5b50610143600480360381019061013e91906104c0565b6102d7565b005b5f805f8373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020015f20549050919050565b5f602052805f5260405f205f915090505481565b5f8173ffffffffffffffffffffffffffffffffffffffff16319050919050565b805f808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020015f2054101561023d576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161023490610558565b60405180910390fd5b805f808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020015f205f82825461028891906105a3565b925050819055508173ffffffffffffffffffffffffffffffffffffffff166108fc8290811502906040515f60405180830381858888f193505050501580156102d2573d5f803e3d5ffd5b505050565b805f808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020015f205461031f91906105d6565b5f808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020015f20819055505050565b5f80fd5b5f73ffffffffffffffffffffffffffffffffffffffff82169050919050565b5f61039082610367565b9050919050565b6103a081610386565b81146103aa575f80fd5b50565b5f813590506103bb81610397565b92915050565b5f602082840312156103d6576103d5610363565b5b5f6103e3848285016103ad565b91505092915050565b5f819050919050565b6103fe816103ec565b82525050565b5f6020820190506104175f8301846103f5565b92915050565b5f61042782610367565b9050919050565b6104378161041d565b8114610441575f80fd5b50565b5f813590506104528161042e565b92915050565b610461816103ec565b811461046b575f80fd5b50565b5f8135905061047c81610458565b92915050565b5f806040838503121561049857610497610363565b5b5f6104a585828601610444565b92505060206104b68582860161046e565b9150509250929050565b5f80604083850312156104d6576104d5610363565b5b5f6104e3858286016103ad565b92505060206104f48582860161046e565b9150509250929050565b5f82825260208201905092915050565b7f496e73756666696369656e742062616c616e63650000000000000000000000005f82015250565b5f6105426014836104fe565b915061054d8261050e565b602082019050919050565b5f6020820190508181035f83015261056f81610536565b9050919050565b7f4e487b71000000000000000000000000000000000000000000000000000000005f52601160045260245ffd5b5f6105ad826103ec565b91506105b8836103ec565b92508282039050818111156105d0576105cf610576565b5b92915050565b5f6105e0826103ec565b91506105eb836103ec565b925082820190508082111561060357610602610576565b5b9291505056fea26469706673582212203fe19f9d769accf6e4b98ba3a549a125bfed32ac7bb22f89700dd1c9447c790b64736f6c634300081a0033"
+#bytecode = compiled_sol["contracts"][f"{smart_contract_file}.sol"][f"{smart_contract_file}"]["evm"][
+#    "bytecode"
+#]["object"]
+bytecode = "608060405234801561001057600080fd5b506108fb806100206000396000f3fe60806040526004361061009c5760003560e01c80633c355120116100645780633c355120146101ae5780634e61e2ed146101d957806353ba8e061461021657806381e5e9e5146102535780639ba7548e1461027e578063cef29f371461029a5761009c565b806305b8effa146100a1578063105ae03a146100de5780631724a0971461011b57806327e235e3146101465780632ed7aec114610183575b600080fd5b3480156100ad57600080fd5b506100c860048036038101906100c3919061063d565b6102c3565b6040516100d5919061074d565b60405180910390f35b3480156100ea57600080fd5b506101056004803603810190610100919061063d565b61030c565b604051610112919061074d565b60405180910390f35b34801561012757600080fd5b50610130610354565b60405161013d919061074d565b60405180910390f35b34801561015257600080fd5b5061016d6004803603810190610168919061063d565b61035a565b60405161017a919061074d565b60405180910390f35b34801561018f57600080fd5b50610198610372565b6040516101a5919061074d565b60405180910390f35b3480156101ba57600080fd5b506101c361037c565b6040516101d0919061074d565b60405180910390f35b3480156101e557600080fd5b5061020060048036038101906101fb919061063d565b610382565b60405161020d919061074d565b60405180910390f35b34801561022257600080fd5b5061023d6004803603810190610238919061063d565b6103a3565b60405161024a919061074d565b60405180910390f35b34801561025f57600080fd5b506102686103bb565b604051610275919061074d565b60405180910390f35b61029860048036038101906102939190610666565b6103c5565b005b3480156102a657600080fd5b506102c160048036038101906102bc91906106a2565b610555565b005b6000600360008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60008060008373ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020549050919050565b60015481565b60006020528060005260406000206000915090505481565b6000600154905090565b60025481565b60008173ffffffffffffffffffffffffffffffffffffffff16319050919050565b60036020528060005260406000206000915090505481565b6000600254905090565b806000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020541015610446576040517f08c379a000000000000000000000000000000000000000000000000000000000815260040161043d9061072d565b60405180910390fd5b806000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff168152602001908152602001600020600082825461049491906107cf565b9250508190555080600260008282546104ad9190610779565b9250508190555080600360008473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff16815260200190815260200160002060008282546105039190610779565b925050819055508173ffffffffffffffffffffffffffffffffffffffff166108fc829081150290604051600060405180830381858888f19350505050158015610550573d6000803e3d6000fd5b505050565b806000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000205461059f9190610779565b6000808473ffffffffffffffffffffffffffffffffffffffff1673ffffffffffffffffffffffffffffffffffffffff1681526020019081526020016000208190555080600160008282546105f39190610779565b925050819055505050565b60008135905061060d81610880565b92915050565b60008135905061062281610897565b92915050565b600081359050610637816108ae565b92915050565b60006020828403121561064f57600080fd5b600061065d848285016105fe565b91505092915050565b6000806040838503121561067957600080fd5b600061068785828601610613565b925050602061069885828601610628565b9150509250929050565b600080604083850312156106b557600080fd5b60006106c3858286016105fe565b92505060206106d485828601610628565b9150509250929050565b60006106eb601483610768565b91507f496e73756666696369656e742062616c616e63650000000000000000000000006000830152602082019050919050565b61072781610847565b82525050565b60006020820190508181036000830152610746816106de565b9050919050565b6000602082019050610762600083018461071e565b92915050565b600082825260208201905092915050565b600061078482610847565b915061078f83610847565b9250827fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff038211156107c4576107c3610851565b5b828201905092915050565b60006107da82610847565b91506107e583610847565b9250828210156107f8576107f7610851565b5b828203905092915050565b600061080e82610827565b9050919050565b600061082082610827565b9050919050565b600073ffffffffffffffffffffffffffffffffffffffff82169050919050565b6000819050919050565b7f4e487b7100000000000000000000000000000000000000000000000000000000600052601160045260246000fd5b61088981610803565b811461089457600080fd5b50565b6108a081610815565b81146108ab57600080fd5b50565b6108b781610847565b81146108c257600080fd5b5056fea264697066735822122000503442ee416e18f6b5787f8bd8587830743d83a8a57948aab2fd6888d2baec64736f6c63430008000033"
 
 # get abi
-abi = json.loads(
-    compiled_sol["contracts"][f"{smart_contract_file}.sol"][f"{smart_contract_file}"]["metadata"]
-)["output"]["abi"]
+#abi = json.loads(
+#    compiled_sol["contracts"][f"{smart_contract_file}.sol"][f"{smart_contract_file}"]["metadata"]
+#)["output"]["abi"]
 abi = [
 	{
 		"inputs": [
@@ -71,6 +72,51 @@ abi = [
 			}
 		],
 		"name": "eth_balance",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalTokensGiven",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getTotalTokensUsed",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_account",
+				"type": "address"
+			}
+		],
+		"name": "getTotalTokensUsedByAccount",
 		"outputs": [
 			{
 				"internalType": "uint256",
@@ -122,6 +168,51 @@ abi = [
 		"inputs": [
 			{
 				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "tokensUsedByAccount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalTokensGiven",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "totalTokensUsed",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
 				"name": "_account",
 				"type": "address"
 			},
@@ -139,11 +230,16 @@ abi = [
 ]
 
 # ===================== Establishing the connection with the network =====================
-w3 = Web3(Web3.HTTPProvider("http://127.0.0.1:22000"))
+w3 = Web3(Web3.HTTPProvider("http://192.168.0.154:22000"))
 chain_id = 10
 
-# absolute path to UTC file of the node
-utc_file = "/home/ahsan/block-chain-network/node0/data/keystore/UTC--2024-07-09T10-45-24.263880062Z--8f5ee93f7ac20bc9c69c205fe33363e92788dab4"
+# get absolute path to UTC file of the node
+directory = "../node1/data/keystore"
+files = os.listdir(directory)
+file_name = files[0]
+file_path=os.path.join(directory, file_name)
+absolute_path = subprocess.check_output(["readlink", "-f", file_path], text=True).strip()
+utc_file = absolute_path
 sender_account = '0x' + utc_file.split("--")[2]
 my_address = Web3.to_checksum_address(sender_account)
 
@@ -151,12 +247,12 @@ encryption_file = utc_file
 acc_passwd = "12345"
 private_key = decrypt_aes128(encryption_file, acc_passwd)
 
-# ===================== Instantiate the contract ===================== 
+# ===================== Instantiate the contract =====================
 SimpleStorage = w3.eth.contract(abi=abi, bytecode=bytecode)
 
 nonce = w3.eth.get_transaction_count(my_address)
 
-# ===================== Set up transaction from constructor ===================== 
+# ===================== Set up transaction from constructor =====================
 tx = SimpleStorage.constructor().build_transaction(
     {
         "chainId": chain_id,
@@ -171,7 +267,7 @@ tx_hash = w3.eth.send_raw_transaction(signed_tx.rawTransaction)
 tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 print(f"Contract deployed to address {tx_receipt.contractAddress}")
 
-# # ===================== Interact with the deployed contract ===================== 
+# # ===================== Interact with the deployed contract =====================
 # simple_storage = w3.eth.contract(address=tx_receipt.contractAddress, abi=abi)
 # print(f"\nInitial value stored is: {simple_storage.functions.get().call()}")
 
