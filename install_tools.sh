@@ -21,9 +21,9 @@ then
 
     if [ $(whoami) = 'pi' ];
     then
-        wget https://dl.google.com/go/go1.22.1.linux-arm64.tar.gz -O go.tar.gz     # for Rpi4, change the version accordingly by refering to https://go.dev
+        wget https://go.dev/dl/go1.22.1.linux-arm64.tar.gz -O go.tar.gz     # for Rpi4, change the version accordingly by refering to https://go.dev
     else
-        wget https://dl.google.com/go/go1.22.1.linux-amd64.tar.gz -O go.tar.gz     # for Ubuntu, change the version accordingly by refering to https://go.dev
+        wget https://go.dev/dl/go1.22.1.linux-amd64.tar.gz -O go.tar.gz     # for Ubuntu, change the version accordingly by refering to https://go.dev
     fi
 
     tar -xzf go.tar.gz
@@ -52,7 +52,7 @@ then
     rm -rf quorum    # remove it if already present some old folder
     git clone https://github.com/Consensys/quorum.git
     eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
-    cd quorum && make all
+    cd quorum && git checkout v23.4.0 && make all
     cd ..
     mkdir quorum_bins
     cp $PWD/quorum/build/bin/* $PWD/quorum_bins
