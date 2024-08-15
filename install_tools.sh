@@ -124,7 +124,7 @@ sudo apt install python3-pip -y
 pip3 install pexpect --break-system-packages
 pip3 install eth_utils --break-system-packages
 pip3 install web3 flask flask-socketio pyserial --break-system-packages
-pip3 install solcx --break-system-packages
+pip3 install py-solc --break-system-packages
 
 ## ==================== Final things ====================
 eval "$(cat ~/.bashrc | tail -n +10)"  # source ~/.bashrc
