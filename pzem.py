@@ -7,16 +7,16 @@ def read_pzem(serial_port):
     3. Run this script, if error is serial port permission denied, run this script as sudo 
     """
 
-"""
-An error faced mostly:
-https://raspberrypi.stackexchange.com/questions/111817/serial-serialutil-serialexception-device-reports-readiness-to-read-but-returned
+    """
+    An error faced mostly:
+    https://raspberrypi.stackexchange.com/questions/111817/serial-serialutil-serialexception-device-reports-readiness-to-read-but-returned
 
-if the error is "Response length invalid", then the supply or load is not connected to PZEM module
-"""
+    if the error is "Response length invalid", then the supply or load is not connected to PZEM module
+    """
 
-# To install library for PZEM:
-# pip3 install modbus-tk
-# pip3 install pyserial
+    # To install library for PZEM:
+    # pip3 install modbus-tk
+    # pip3 install pyserial
 
     import time
 
