@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>P2P Energy Trading through Ethereum Blockchain</title>
+    <title>Energy Marketplace</title>
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,8 +14,11 @@
     <!-- <script src="./js/jquery-1.11.3.min.js"></script> -->
     <script src="./js/bootstrap.js"></script>
     <script src="./js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/node_modules/web3/dist/web3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script src="./js/script_tables.js"></script>
   </head>
 
   <body>
@@ -37,7 +40,7 @@
       </div>
     </nav>
 
-    <section>
+    <!-- <section>
       <div class="container">
         <div class="row">
           <div class="col-xs-12">
@@ -113,7 +116,83 @@
           </div>
         </div>
       </div>
+    </section> -->
+
+    <main class="table" id="prosumers_table">
+      <section class="table__header">
+          <h1>Prosumers</h1>
+          <div class="input-group">
+              <input type="search" placeholder="Search Data...">
+              <img src="images/search.png" alt="">
+          </div>
+          <div class="export__file">
+              <label for="export-file-prosumer" class="export__file-btn" title="Export File"></label>
+              <input type="checkbox" id="export-file-prosumer">
+              <div class="export__file-options">
+                  <label>Export As &nbsp; &#10140;</label>
+                  <label for="export-file-prosumer" id="toPDFProsumer">PDF <img src="images/pdf.png" alt=""></label>
+                  <label for="export-file-prosumer" id="toJSONProsumer">JSON <img src="images/json.png" alt=""></label>
+                  <label for="export-file-prosumer" id="toCSVProsumer">CSV <img src="images/csv.png" alt=""></label>
+              </div>
+          </div>
+      </section>
+      <section class="table__body">
+          <table>
+              <thead>
+                  <tr>
+                      <th> Id <span class="icon-arrow">&UpArrow;</span></th>
+                      <th> Prosumer <span class="icon-arrow">&UpArrow;</span></th>
+                      <th> Capacity (kW) <span class="icon-arrow">&UpArrow;</span></th>
+                      <th> Rs/kWh <span class="icon-arrow">&UpArrow;</span></th>
+                      <th> Status <span class="icon-arrow">&UpArrow;</span></th>
+                  </tr>
+              </thead>
+              <tbody id="prosumers_table_body">
+                  <!-- New rows will be create over here -->
+              </tbody>
+          </table>
+      </section>
+  </main>
+
+  <div class="horizontal-spacer"></div>
+
+  <main class="table" id="consumers_table">
+    <section class="table__header">
+        <h1>Consumers</h1>
+        <div class="input-group">
+            <input type="search" placeholder="Search Data...">
+            <img src="images/search.png" alt="">
+        </div>
+        <div class="export__file">
+            <label for="export-file-consumer" class="export__file-btn" title="Export File"></label>
+            <input type="checkbox" id="export-file-consumer">
+            <div class="export__file-options">
+                <label>Export As &nbsp; &#10140;</label>
+                <label for="export-file-consumer" id="toPDFConsumer">PDF <img src="images/pdf.png" alt=""></label>
+                <label for="export-file-consumer" id="toJSONConsumer">JSON <img src="images/json.png" alt=""></label>
+                <label for="export-file-consumer" id="toCSVConsumer">CSV <img src="images/csv.png" alt=""></label>
+            </div>
+        </div>
     </section>
+    <section class="table__body">
+        <table>
+            <thead>
+                <tr>
+                    <th> Id <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> Consumer <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> Demand (kW) <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> Rs/kWh <span class="icon-arrow">&UpArrow;</span></th>
+                    <th> Status <span class="icon-arrow">&UpArrow;</span></th>
+                </tr>
+            </thead>
+            <tbody id="consumers_table_body">
+              <!-- New rows will be create over here -->
+            </tbody>
+        </table>
+    </section>
+</main>
+
+<div class="horizontal-spacer"></div>
 
     <!-- Modal -->
     <div id="buy" class="modal fade" role="dialog">
@@ -126,11 +205,20 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Account Address" oneKeyup="checkform();" id="consumer_address">
+              <input type="text" class="form-control" placeholder="Enter your name here" id="consumer_name">
+            </div>
+            <div class="form-group">
+              <input type="text" class="form-control" placeholder="Account Address" id="consumer_address">
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="Demand in kW" id="consumer_demand">
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="Bid price per kWh" id="consumer_bid_price">
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-info" data-dismiss="modal" onclick="Enter_bid();">Submit</button>
+            <button type="button" class="btn btn-info" data-dismiss="modal" id="saveConsumer" onclick="add_consumer();">Submit Consumer</button>
           </div>
         </div>
       </div>
@@ -147,14 +235,20 @@
           </div>
           <div class="modal-body">
             <div class="form-group">
-              <input type="text" class="form-control" placeholder="Account Address" id="producer_address">
+              <input type="text" class="form-control" placeholder="Enter your name here" id="prosumer_name">
             </div>
             <div class="form-group">
-              <input type="number" class="form-control" placeholder="Base Bid" id="base_value">
+              <input type="text" class="form-control" placeholder="Account Address" id="prosumer_address">
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="Capacity in kW" id="prosumer_capacity">
+            </div>
+            <div class="form-group">
+              <input type="number" class="form-control" placeholder="Offer price per kWh" id="prosumer_offer_price">
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-dismiss="modal" onclick="broadcast_seller_info();">Submit</button>
+            <button type="button" class="btn btn-success" data-dismiss="modal" id="saveProsumer" onclick="add_prosumer();">Submit Prosumer</button>
           </div>
         </div>
       </div>
@@ -171,7 +265,6 @@
     <script>
       var address;
       var value;
-      var bid_value;
       var address_seller;
       var address_request;
       var socket = io();
@@ -196,11 +289,36 @@
         document.getElementById('submitbutton2').disabled = !cansubmit2;
       }
 
-      function broadcast_seller_info()
+      function add_prosumer()
       {
-        address_seller = document.getElementById("producer_address").value;
-        bid_value = document.getElementById("base_value").value;
-        socket.emit('broadcast_seller_info', {address : address_seller, base : bid_value});
+        var prosumer_name        = document.getElementById("prosumer_name").value;
+        var prosumer_address     = document.getElementById("prosumer_address").value;
+        var prosumer_capacity    = document.getElementById("prosumer_capacity").value;
+        var prosumer_offer_price = document.getElementById("prosumer_offer_price").value;
+
+        socket.emit('add_prosumer', {
+            prosumer_name        : prosumer_name,
+            prosumer_address     : prosumer_address,
+            prosumer_capacity    : prosumer_capacity,
+            prosumer_offer_price : prosumer_offer_price
+
+        });
+      }
+
+      function add_consumer()
+      {
+        var consumer_name      = document.getElementById("consumer_name").value;
+        var consumer_address   = document.getElementById("consumer_address").value;
+        var consumer_demand    = document.getElementById("consumer_demand").value;
+        var consumer_bid_price = document.getElementById("consumer_bid_price").value;
+
+        socket.emit('add_consumer', {
+            consumer_name      : consumer_name,
+            consumer_address   : consumer_address,
+            consumer_demand    : consumer_demand,
+            consumer_bid_price : consumer_bid_price
+
+        });
       }
 
       function bid_for_producer_0()
@@ -238,36 +356,36 @@
         socket.emit('close_connection');
       }
 
-      socket.on('update_marketplace', function(data)
-      {
-        document.getElementById("producer0").innerHTML = data.add0;
-        document.getElementById("producer1").innerHTML = data.add1;
-        document.getElementById("producer2").innerHTML = data.add2;
-        document.getElementById("producer3").innerHTML = data.add3;
-        document.getElementById("producer4").innerHTML = data.add4;
-        document.getElementById("producer5").innerHTML = data.add5;
+      // socket.on('update_marketplace', function(data)
+      // {
+      //   document.getElementById("producer0").innerHTML = data.add0;
+      //   document.getElementById("producer1").innerHTML = data.add1;
+      //   document.getElementById("producer2").innerHTML = data.add2;
+      //   document.getElementById("producer3").innerHTML = data.add3;
+      //   document.getElementById("producer4").innerHTML = data.add4;
+      //   document.getElementById("producer5").innerHTML = data.add5;
 
-        document.getElementById("Etoken0").innerHTML = data.tok0;
-        document.getElementById("Etoken1").innerHTML = data.tok1;
-        document.getElementById("Etoken2").innerHTML = data.tok2;
-        document.getElementById("Etoken3").innerHTML = data.tok3;
-        document.getElementById("Etoken4").innerHTML = data.tok4;
-        document.getElementById("Etoken5").innerHTML = data.tok5;
+      //   document.getElementById("Etoken0").innerHTML = data.tok0;
+      //   document.getElementById("Etoken1").innerHTML = data.tok1;
+      //   document.getElementById("Etoken2").innerHTML = data.tok2;
+      //   document.getElementById("Etoken3").innerHTML = data.tok3;
+      //   document.getElementById("Etoken4").innerHTML = data.tok4;
+      //   document.getElementById("Etoken5").innerHTML = data.tok5;
 
-        document.getElementById("latest_bid0").innerHTML = data.bid0;
-        document.getElementById("latest_bid1").innerHTML = data.bid1;
-        document.getElementById("latest_bid2").innerHTML = data.bid2;
-        document.getElementById("latest_bid3").innerHTML = data.bid3;
-        document.getElementById("latest_bid4").innerHTML = data.bid4;
-        document.getElementById("latest_bid5").innerHTML = data.bid5;
+      //   document.getElementById("latest_bid0").innerHTML = data.bid0;
+      //   document.getElementById("latest_bid1").innerHTML = data.bid1;
+      //   document.getElementById("latest_bid2").innerHTML = data.bid2;
+      //   document.getElementById("latest_bid3").innerHTML = data.bid3;
+      //   document.getElementById("latest_bid4").innerHTML = data.bid4;
+      //   document.getElementById("latest_bid5").innerHTML = data.bid5;
 
-        document.getElementById("consumer0").innerHTML = data.con0;
-        document.getElementById("consumer1").innerHTML = data.con1;
-        document.getElementById("consumer2").innerHTML = data.con2;
-        document.getElementById("consumer3").innerHTML = data.con3;
-        document.getElementById("consumer4").innerHTML = data.con4;
-        document.getElementById("consumer5").innerHTML = data.con5;
-      });
+      //   document.getElementById("consumer0").innerHTML = data.con0;
+      //   document.getElementById("consumer1").innerHTML = data.con1;
+      //   document.getElementById("consumer2").innerHTML = data.con2;
+      //   document.getElementById("consumer3").innerHTML = data.con3;
+      //   document.getElementById("consumer4").innerHTML = data.con4;
+      //   document.getElementById("consumer5").innerHTML = data.con5;
+      // });
     </script>
   </body>
 </html>

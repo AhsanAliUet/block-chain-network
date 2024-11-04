@@ -10,7 +10,7 @@ else:
     is_raspberrypi = 1  # run on Raspberry Pi nodes by default
 
 # number of validator nodes initially
-initial_validators = 2
+initial_validators = 1
 
 # Local static ip addresses of raspberry pis
 ip_dict = {1: '192.168.0.152', 2: '192.168.0.111', 3: '192.168.0.167', 4: '192.168.0.137', 5: '192.168.0.192', 6: '192.168.0.120', 7: '192.168.0.171', 8: '192.168.0.133', 9: '192.168.0.110', 10: '192.168.0.152'}

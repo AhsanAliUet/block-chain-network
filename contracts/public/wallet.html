@@ -23,8 +23,8 @@
                                 <div class="collapse navbar-collapse" id="defaultNavbar1">
                                         <ul class="nav navbar-nav navbar-right">
                                                 <!-- Enter your IP Address. Leave the port number same. -->
-                                                <li><a href="http://192.168.0.111:4000">Go to Energy Marketplace</a></li>
-                                                <li><a href="http://192.168.0.111:3000">Logout</a></li>
+                                                <li><a href="http://192.168.0.152:4000">Go to Energy Marketplace</a></li>
+                                                <li><a href="http://192.168.0.152:3000">Logout</a></li>
                                         </ul>
                                 </div>
                         </div>
@@ -46,14 +46,14 @@
                                         </div>
                                         <div class="col-md-3 col-xs-12">
                                                 <div class="card">
-                                                        <h3 id="tokens_used"></h3>
-                                                        <p align="center">Tokens used</p>
+                                                        <h3 id="instantaneous_power"></h3>
+                                                        <p align="center">Instantaneous Power (W)</p>
                                                 </div>
                                         </div>
                                         <div class="col-md-3 col-xs-12">
                                                 <div class="card">
-                                                        <h3 id="current_generation"></h3>
-                                                        <p align="center">Current Generation</p>
+                                                        <h3 id="wh_consumed"></h3>
+                                                        <p align="center">Wh in this session</p>
                                                 </div>
                                         </div>
                                         <div class="col-md-3 col-xs-12">
@@ -138,8 +138,8 @@
 
                 <script>
                         var energy_tokens;
-                        var tokens_used;
-                        var energy_KWH;
+                        var instantaneous_power;
+                        var wh_consumed;
                         var socket = io();
 
                         function startmine()
@@ -155,8 +155,8 @@
                         setInterval(function()
                         {
                                 document.getElementById("my_Etokens").innerHTML = energy_tokens;
-                                document.getElementById("tokens_used").innerHTML = tokens_used;
-                                document.getElementById("current_generation").innerHTML = energy_KWH;
+                                document.getElementById("instantaneous_power").innerHTML = instantaneous_power;
+                                document.getElementById("wh_consumed").innerHTML = wh_consumed;
                                 document.getElementById("ether_balance").innerHTML = ether_balance;
                         }, 1000);
 
@@ -172,10 +172,10 @@
 
                         socket.on('energy_token_balance', function (data) // set energy, token and balance
                         {
-                                energy_tokens = data.tok;
-                                tokens_used   = data.tokens_used;
-                                energy_KWH    = data.energy;
-                                ether_balance = data.bal;
+                                energy_tokens       = data.tok;
+                                instantaneous_power = data.instantaneous_power;
+                                wh_consumed         = data.wh_consumed;
+                                ether_balance       = data.bal;
                         })
 
                         function basic_tx()

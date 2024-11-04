@@ -109,7 +109,7 @@ abi = [
 	}
 ]
 
-contract_deployed_at = "0x7cD98A49dD75A16289d851eb819bd837e85AB05F"
+contract_deployed_at = "0xb9cF889A830F4ca38d834e838ea2f55D69e8cEC0"
 contract_address = web3.to_checksum_address(contract_deployed_at)
 contract = web3.eth.contract(address=contract_address, abi=abi)
 

@@ -33,50 +33,14 @@ app.get('/', (req, res) => {
     // Send request to producer server to get number of energy tokens in entered account address
     // Adds corresponding producer address and asking_bid value to the list
     // Sets the corresponding 'Seller Available' Flag to 1
-    socket.on('broadcast_seller_info', function (data)
+    socket.on('add_prosumer', function (data)
     {
-      if(buyer_available_0 == 0 && seller_available_0 == 0)
-      {
-        io.emit('req_tokens_0', data.address);
-        producer_address_list[0] = data.address;
-        asking_bid[0] = data.base;
-        seller_available_0 = 1;
-      }
-      else if(buyer_available_1 == 0 && seller_available_1 == 0)
-      {
-        io.emit('req_tokens_1', data.address);
-        producer_address_list[1] = data.address;
-        asking_bid[1] = data.base;
-        seller_available_1 = 1;
-      }
-      else if(buyer_available_2 == 0 && seller_available_2 == 0)
-      {
-        io.emit('req_tokens_2', data.address);
-        producer_address_list[2] = data.address;
-        asking_bid[2] = data.base;
-        seller_available_2 = 1;
-      }
-      else if(buyer_available_3 == 0 && seller_available_3 == 0)
-      {
-        io.emit('req_tokens_3', data.address);
-        producer_address_list[3] = data.address;
-        asking_bid[3] = data.base;
-        seller_available_3 = 1;
-      }
-      else if(buyer_available_4 == 0 && seller_available_4 == 0)
-      {
-        io.emit('req_tokens_4', data.address);
-        producer_address_list[4] = data.address;
-        asking_bid[4] = data.base;
-        seller_available_4 = 1;
-      }
-      else if(buyer_available_5 == 0 && seller_available_5 == 0)
-      {
-        io.emit('req_tokens_5', data.address);
-        producer_address_list[5] = data.address;
-        asking_bid[5] = data.base;
-        seller_available_5 = 1;
-      }
+      io.emit('add_prosumer', data)
+    });
+
+    socket.on('add_consumer', function (data)
+    {
+      io.emit('add_consumer', data)
     });
 
     // Close Physical Connection with the Consumer through Arduino Serial Port
