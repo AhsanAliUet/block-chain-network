@@ -43,7 +43,11 @@ app.get('/', (req, res) => {
       io.emit('add_consumer', data)
     });
 
-    // Close Physical Connection with the Consumer through Arduino Serial Port
+    socket.on('start_auction', function (data)
+    {
+      io.emit('start_auction', 2)
+    });
+
     socket.on('close_connection', function (data)
     {
       io.emit('close', 2);
