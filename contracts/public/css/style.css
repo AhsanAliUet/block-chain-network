@@ -464,7 +464,10 @@ h2:after {
    .export__file {
        position: relative;
    }
-   
+
+   .import__file {
+    position: relative;
+}
    .export__file .export__file-btn {
        display: inline-block;
        width: 2rem;
@@ -473,13 +476,27 @@ h2:after {
        border-radius: 50%;
        transition: .2s ease-in-out;
    }
-   
+
+   .import__file .import__file-btn {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    background: #fff6 url(../images/import.png) center / 80% no-repeat;
+    border-radius: 50%;
+    transition: .2s ease-in-out;
+}
+
    .export__file .export__file-btn:hover { 
        background-color: #fff;
        transform: scale(1.15);
        cursor: pointer;
    }
-   
+
+   .import__file .import__file-btn:hover { 
+    background-color: #fff;
+    transform: scale(1.15);
+    cursor: pointer;
+}
    .export__file input {
        display: none;
    }

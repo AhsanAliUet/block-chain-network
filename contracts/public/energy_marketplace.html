@@ -18,6 +18,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/web3/dist/web3.min.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
     <script src="./js/script_tables.js"></script>
   </head>
 
@@ -47,6 +48,10 @@
           <div class="input-group">
               <input type="search" placeholder="Search Data...">
               <img src="images/search.png" alt="">
+          </div>
+          <div class="import__file">
+            <label for="import-file-prosumer" class="import__file-btn" title="Import File"></label>
+            <input type="file" id="import-file-prosumer" style="display: none;" accept=".xlsx, .csv" />
           </div>
           <div class="export__file">
               <label for="export-file-prosumer" class="export__file-btn" title="Export File"></label>
@@ -85,6 +90,10 @@
         <div class="input-group">
             <input type="search" placeholder="Search Data...">
             <img src="images/search.png" alt="">
+        </div>
+        <div class="import__file">
+          <label for="import-file-consumer" class="import__file-btn" title="Import File"></label>
+          <input type="file" id="import-file-consumer" style="display: none;" accept=".xlsx, .csv" />
         </div>
         <div class="export__file">
             <label for="export-file-consumer" class="export__file-btn" title="Export File"></label>

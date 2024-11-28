@@ -253,3 +253,209 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     
 });
+
+// const socket = io();   // no need of declaring in this file, present in script of energy_marketplace.html file
+
+// prosumer imported file
+document.addEventListener('DOMContentLoaded', function () {
+
+    // File input listener
+    const fileInput = document.getElementById('import-file-prosumer');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', async function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const allowedExtensions = ['csv', 'xlsx'];
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert('Invalid file type. Please upload a .csv or .xlsx file.');
+                fileInput.value = ''; // Clear the file input
+                return;
+            }
+
+            try {
+                if (fileExtension === 'csv') {
+                    await processCSVFile(file);
+                } else if (fileExtension === 'xlsx') {
+                    await processXLSXFile(file);
+                }
+            } catch (error) {
+                console.error('Error processing file:', error);
+                alert('An error occurred while processing the file.');
+            }
+        });
+    }
+
+    // Function to process CSV file
+    async function processCSVFile(file) {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const csvContent = event.target.result;
+            const rows = csvContent.split('\n').map(row => row.split(','));
+
+            if (rows.length > 1) {
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // Skip header row
+                    addRowToTable(row[0], row[1], row[2], row[3]);
+                });
+            }
+        };
+
+        reader.readAsText(file);
+    }
+
+    // Function to process XLSX file
+    async function processXLSXFile(file) {
+        const reader = new FileReader();
+
+        reader.onload = async function (event) {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            const json = XLSX.utils.sheet_to_json(sheet);
+
+            json.forEach(row => {
+                const { 'prosumer name': name, 'prosumer address': address, 'prosumer capacity': capacity, 'prosumer offer': offer } = row;
+                if (name && address && capacity && offer) {
+                    addRowToTable(name, address, capacity, offer);
+                }
+            });
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+
+    // Function to add a new row to the table
+    function addRowToTable(prosumer_name, prosumer_address, prosumer_capacity, prosumer_offer) {
+        const tableBody = document.getElementById('prosumers_table_body');
+        const newRow = document.createElement('tr');
+
+        prosumer_id += 1;
+
+        newRow.innerHTML = `
+            <td>P${prosumer_id}</td> 
+            <td>${prosumer_name}</td>
+            <td>${prosumer_capacity}</td>
+            <td>${prosumer_offer}</td>
+            <td><p class="status pending">Pending</p></td>
+        `;
+
+        tableBody.appendChild(newRow);
+
+        // Emit the prosumer data to the server
+        socket.emit('add_prosumer', {
+            prosumer_name: prosumer_name,
+            prosumer_address: prosumer_address,
+            prosumer_capacity: prosumer_capacity,
+            prosumer_offer_price: prosumer_offer
+        });
+    }
+});
+
+
+// consumer imported file
+document.addEventListener('DOMContentLoaded', function () {
+
+    // File input listener
+    const fileInput = document.getElementById('import-file-consumer');
+
+    if (fileInput) {
+        fileInput.addEventListener('change', async function (event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const allowedExtensions = ['csv', 'xlsx'];
+            const fileExtension = file.name.split('.').pop().toLowerCase();
+
+            if (!allowedExtensions.includes(fileExtension)) {
+                alert('Invalid file type. Please upload a .csv or .xlsx file.');
+                fileInput.value = ''; // Clear the file input
+                return;
+            }
+
+            try {
+                if (fileExtension === 'csv') {
+                    await processCSVFile(file);
+                } else if (fileExtension === 'xlsx') {
+                    await processXLSXFile(file);
+                }
+            } catch (error) {
+                console.error('Error processing file:', error);
+                alert('An error occurred while processing the file.');
+            }
+        });
+    }
+
+    // Function to process CSV file
+    async function processCSVFile(file) {
+        const reader = new FileReader();
+
+        reader.onload = function (event) {
+            const csvContent = event.target.result;
+            const rows = csvContent.split('\n').map(row => row.split(','));
+
+            if (rows.length > 1) {
+                rows.forEach((row, index) => {
+                    if (index === 0) return; // Skip header row
+                    addRowToTable(row[0], row[1], row[2], row[3]);
+                });
+            }
+        };
+
+        reader.readAsText(file);
+    }
+
+    // Function to process XLSX file
+    async function processXLSXFile(file) {
+        const reader = new FileReader();
+
+        reader.onload = async function (event) {
+            const data = new Uint8Array(event.target.result);
+            const workbook = XLSX.read(data, { type: 'array' });
+            const sheetName = workbook.SheetNames[0];
+            const sheet = workbook.Sheets[sheetName];
+            const json = XLSX.utils.sheet_to_json(sheet);
+
+            json.forEach(row => {
+                const { 'consumer name': name, 'consumer address': address, 'consumer demand': demand, 'consumer bid': bid } = row;
+                if (name && address && demand && bid) {
+                    addRowToTable(name, address, demand, bid);
+                }
+            });
+        };
+
+        reader.readAsArrayBuffer(file);
+    }
+
+    // Function to add a new row to the table
+    function addRowToTable(consumer_name, consumer_address, consumer_demand, consumer_bid) {
+        const tableBody = document.getElementById('consumers_table_body');
+        const newRow = document.createElement('tr');
+
+        consumer_id += 1;
+
+        newRow.innerHTML = `
+            <td>C${consumer_id}</td> 
+            <td>${consumer_name}</td>
+            <td>${consumer_demand}</td>
+            <td>${consumer_bid}</td>
+            <td><p class="status pending">Pending</p></td>
+        `;
+
+        tableBody.appendChild(newRow);
+
+        // Emit the consumer data to the server
+        socket.emit('add_consumer', {
+            consumer_name: consumer_name,
+            consumer_address: consumer_address,
+            consumer_demand: consumer_demand,
+            consumer_bid_price: consumer_bid
+        });
+    }
+});
+  

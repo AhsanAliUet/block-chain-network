@@ -219,10 +219,14 @@ def test_double_auction(prosumers, consumers):
 
     plot_transactions(temp_lst)
 
+    return energy_allocations
+
 @sio.on('start_auction')
 def start_auction(data):
     print("Auction Started...")
-    test_double_auction(prosumers, consumers)
+    energy_allocations = test_double_auction(prosumers, consumers)
+    print(energy_allocations)
+    print(len(energy_allocations))
 
 # Wait indefinitely to keep the client running
 sio.wait()
