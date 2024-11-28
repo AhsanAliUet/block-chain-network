@@ -17,14 +17,16 @@ def disconnect():
 @sio.on('add_prosumer')
 def add_prosumer(data):
     print("New prosumer added: ", data)
+    prosumer_id          =     data["prosumer_id"]
     prosumer_name        =     data["prosumer_name"]
     prosumer_address     =     data["prosumer_address"]
     prosumer_capacity    = int(data["prosumer_capacity"])
     prosumer_offer_price = int(data["prosumer_offer_price"])
 
     conditioned_dict = {
+        'id'              : prosumer_id,
         'name'            : prosumer_name,
-        'prosumer_address': prosumer_name,
+        'acc_addr'        : prosumer_address,
         'capacity_kw'     : prosumer_capacity,
         'offer_price'     : prosumer_offer_price
     }
@@ -33,14 +35,16 @@ def add_prosumer(data):
 @sio.on('add_consumer')
 def add_consumer(data):
     print("New consumer added: ", data)
+    consumer_id        =     data["consumer_id"]
     consumer_name      =     data["consumer_name"]
     consumer_address   =     data["consumer_address"]
     consumer_demand    = int(data["consumer_demand"])
     consumer_bid_price = int(data["consumer_bid_price"])
 
     conditioned_dict = {
+        'id'              : consumer_id,
         'name'            : consumer_name,
-        'consumer_address': consumer_name,
+        'acc_addr'        : consumer_address,
         'demand_kw'       : consumer_demand,
         'bid_price'       : consumer_bid_price
     }

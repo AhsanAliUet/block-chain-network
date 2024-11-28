@@ -221,43 +221,6 @@
         document.getElementById('submitbutton2').disabled = !cansubmit2;
       }
 
-      function add_prosumer()
-      {
-        var prosumer_name        = document.getElementById("prosumer_name").value;
-        var prosumer_address     = document.getElementById("prosumer_address").value;
-        var prosumer_capacity    = document.getElementById("prosumer_capacity").value;
-        var prosumer_offer_price = document.getElementById("prosumer_offer_price").value;
-
-        socket.emit('add_prosumer', {
-            prosumer_name        : prosumer_name,
-            prosumer_address     : prosumer_address,
-            prosumer_capacity    : prosumer_capacity,
-            prosumer_offer_price : prosumer_offer_price
-
-        });
-      }
-
-      function add_consumer()
-      {
-        var consumer_name      = document.getElementById("consumer_name").value;
-        var consumer_address   = document.getElementById("consumer_address").value;
-        var consumer_demand    = document.getElementById("consumer_demand").value;
-        var consumer_bid_price = document.getElementById("consumer_bid_price").value;
-
-        socket.emit('add_consumer', {
-            consumer_name      : consumer_name,
-            consumer_address   : consumer_address,
-            consumer_demand    : consumer_demand,
-            consumer_bid_price : consumer_bid_price
-
-        });
-      }
-
-      function start_auction()
-      {
-        socket.emit('start_auction');
-      }
-
       function bid_for_producer_0()
       {
         socket.emit('bid_for_producer_0', consumer_address);

@@ -349,6 +349,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Emit the prosumer data to the server
         socket.emit('add_prosumer', {
+            prosumer_id: prosumer_id,
             prosumer_name: prosumer_name,
             prosumer_address: prosumer_address,
             prosumer_capacity: prosumer_capacity,
@@ -451,6 +452,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Emit the consumer data to the server
         socket.emit('add_consumer', {
+            consumer_id: consumer_id,
             consumer_name: consumer_name,
             consumer_address: consumer_address,
             consumer_demand: consumer_demand,
@@ -459,3 +461,42 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
   
+// get function calls from button of html page
+function add_prosumer()
+{
+  var prosumer_name        = document.getElementById("prosumer_name").value;
+  var prosumer_address     = document.getElementById("prosumer_address").value;
+  var prosumer_capacity    = document.getElementById("prosumer_capacity").value;
+  var prosumer_offer_price = document.getElementById("prosumer_offer_price").value;
+
+  socket.emit('add_prosumer', {
+      prosumer_id          : prosumer_id,
+      prosumer_name        : prosumer_name,
+      prosumer_address     : prosumer_address,
+      prosumer_capacity    : prosumer_capacity,
+      prosumer_offer_price : prosumer_offer_price
+
+  });
+}
+
+function add_consumer()
+{
+  var consumer_name      = document.getElementById("consumer_name").value;
+  var consumer_address   = document.getElementById("consumer_address").value;
+  var consumer_demand    = document.getElementById("consumer_demand").value;
+  var consumer_bid_price = document.getElementById("consumer_bid_price").value;
+
+  socket.emit('add_consumer', {
+      consumer_id        : consumer_id,
+      consumer_name      : consumer_name,
+      consumer_address   : consumer_address,
+      consumer_demand    : consumer_demand,
+      consumer_bid_price : consumer_bid_price
+
+  });
+}
+
+function start_auction()
+{
+  socket.emit('start_auction');
+}
